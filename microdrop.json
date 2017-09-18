@@ -1,0 +1,6 @@
+{
+  "name": "device-loader-ui-plugin",
+  "version": "0.0.1",
+  "type": "ui",
+  "script": "device-loader.js"
+}
