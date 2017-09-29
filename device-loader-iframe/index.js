@@ -1,0 +1,1 @@
+new DeviceLoader(document.body);
