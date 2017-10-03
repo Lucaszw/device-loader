@@ -55,5 +55,4 @@ class DeviceLoader extends UIPlugin {
   }
 }
 
-if (!window.microdropPlugins) window.microdropPlugins = new Map();
 window.microdropPlugins.set("DeviceLoader", DeviceLoader);
