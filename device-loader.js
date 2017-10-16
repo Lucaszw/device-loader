@@ -1,3 +1,73 @@
+var DeviceLoader =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
 class DeviceLoader extends UIPlugin {
   constructor(elem, focusTracker) {
     super(elem, focusTracker, "DeviceLoader");
@@ -6,33 +76,23 @@ class DeviceLoader extends UIPlugin {
   }
   listen() {
     this.bindTriggerMsg("device-model", "load-device", "send-file");
-    this.on("open-file-upload", this.onOpenFileUpload.bind(this));
-    this.on("load-file", this.onLoadFile.bind(this));
-  }
-  wrapData(key, value) {
-    let msg = new Object();
-    // Convert message to object if not already
-    if (typeof(value) == "object" && value !== null) msg = value;
-    else msg[key] = value;
-    // Add header
-    msg.__head__ = this.DefaultHeader();
-    return msg;
   }
   get controls() {return this._controls}
   set controls(controls) {
-    if (controls == undefined) this.element.removeChild(this.controls.el);
-    if (controls != undefined) this.element.appendChild(controls.el);
+    if (this.controls) this.element.removeChild(this.controls);
+    this.element.appendChild(controls);
     this._controls = controls;
   }
-  onLoadFile(file) {
+  loadFile(file) {
+    console.log("load file called");
     const reader = new FileReader();
     reader.onload = () => {
       this.trigger("send-file", this.wrapData(null, this.File(file,reader)))}
     reader.readAsText(file);
   }
-  onOpenFileUpload() {
+  openFile() {
     const input = D("<input type='file'/>");
-    input.on("change", (e)=> this.trigger("load-file", input.el.files[0]));
+    input.on("change", (e) => this.loadFile(input.el.files[0]));
     input.click();
   }
   File(file, reader) {
@@ -40,13 +100,13 @@ class DeviceLoader extends UIPlugin {
   }
   Controls() {
     // Textfield:
-    const uploadTextfield = D("<input type='text' disabled />");
-    const uploadButton = D("<button>Upload</button>");
-    const container = D("<div></div");
-    uploadButton.on("click", () => this.trigger("open-file-upload"));
-    container.appendChild(uploadTextfield.el);
-    container.appendChild(uploadButton.el);
-    return container;
+    const uploadTextfield = $("<input type='text' disabled />");
+    const uploadButton = $("<button>Upload</button>");
+    const container = $("<div></div");
+    uploadButton.on("click", this.openFile.bind(this));
+    container.append(uploadTextfield);
+    container.append(uploadButton);
+    return container[0];
   }
   // ** Static Methods **
   static position() {
@@ -55,4 +115,8 @@ class DeviceLoader extends UIPlugin {
   }
 }
 
-window.microdropPlugins.set("DeviceLoader", DeviceLoader);
+module.exports = DeviceLoader;
+
+
+/***/ })
+/******/ ]);
