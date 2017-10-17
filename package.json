@@ -1,0 +1,29 @@
+{
+  "name": "@microdrop/device-loader-ui-plugin",
+  "version": "1.0.0",
+  "description": "UI Element to load device files",
+  "main": "device-loader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucaszw/device-loader-ui-plugin.git"
+  },
+  "keywords": [
+    "Microdrop",
+    "Device",
+    "UIPlugin",
+    "Jupyterlab"
+  ],
+  "author": "Sci-Bots",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Lucaszw/device-loader-ui-plugin/issues"
+  },
+  "homepage": "https://github.com/Lucaszw/device-loader-ui-plugin#readme",
+  "dependencies": {
+    "@microdrop/async": "0.0.11",
+    "yo-yo": "^1.4.1"
+  }
+}
