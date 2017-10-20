@@ -11,7 +11,6 @@ class DeviceLoader extends UIPlugin {
   }
   listen() {
     this.onStateMsg("device-model", "device", this.onDeviceSet.bind(this));
-    this.bindTriggerMsg("device-model", "load-device", "send-file");
     this.model.on("change", this.render.bind(this));
   }
   get controls() {return this._controls}
@@ -21,6 +20,7 @@ class DeviceLoader extends UIPlugin {
     this._controls = controls;
   }
   async openFile() {
+    // Load device:
     const response = await this.microdrop.device.loadFromFilePrompt();
     return response;
   }
@@ -28,7 +28,6 @@ class DeviceLoader extends UIPlugin {
     const data = JSON.parse(payload);
     console.log(data);
     this.model.set("filename", data.svg_filepath);
-
   }
   render() {
     const node = yo`
