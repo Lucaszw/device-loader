@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/Lucaszw/device-loader-ui-plugin#readme",
   "dependencies": {
-    "@microdrop/async": "0.0.17",
     "yo-yo": "^1.4.1"
   }
 }
